@@ -1,6 +1,8 @@
 # Build directory
 build/
 
+.cache/
+
 # Compiled artifacts and build files
 *.so
 *.a
@@ -22,6 +24,7 @@ __pycache__/
 *.swp
 .idea/
 .vscode/
+.clangd 
 
 # OS-specific
 .DS_Store
