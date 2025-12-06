@@ -1,5 +1,4 @@
-
-#include "europeanOption.hpp"
+#include "../include/europeanOption.hpp"
 #include <algorithm>
 #include <stdexcept>
 

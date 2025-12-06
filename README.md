@@ -22,36 +22,42 @@ The core computational engine is written in modern C++ (C++20) for speed, and it
 ## Prerequisites
 
 To build this library, you will need:
+
 * A C++20 compatible compiler (e.g., `g++`, `clang++`)
 * `CMake`
 * `Python`
 * `pybind11`
 
 The easiest way to get the build dependencies is via `conda`:
+
 ```bash
 conda install -c conda-forge pybind11 cmake cxx-compiler
 ```
 
 ## How to Build
 
-1.  Clone this repository:
+1. Clone this repository:
+
     ```bash
     git clone [https://github.com/ClaudioRMalvino/Monte-Carlo-Pricer.git(https://github.com/ClaudioRMalvino/Monte-Carlo-Pricer.git)
     cd Monte-Carlo-Pricer
     ```
 
-2.  Create a build directory (this project uses the `CMakeLists.txt` from the parent directory):
+2. Create a build directory (this project uses the `CMakeLists.txt` from the parent directory):
+
     ```bash
     mkdir build
     cd build
     ```
 
-3.  Configure the build with `cmake`:
+3. Configure the build with `cmake`:
+
     ```bash
     cmake ..
     ```
 
-4.  Compile the Python module:
+4. Compile the Python module:
+
     ```bash
     make
     ```
@@ -102,7 +108,8 @@ print(f"Put Price:  {put_price:.3f}")
 
 ```
 
-### Example Output:
+### Example Output
+
 ```
 --- Monte Carlo Simulation ---
 Stock Price:    100.0

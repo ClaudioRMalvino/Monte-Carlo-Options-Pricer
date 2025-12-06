@@ -1,11 +1,12 @@
-#include "europeanOption.hpp"
+#include "../include/europeanOption.hpp"
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(my_option_pricer, m) {
-  m.doc() = "A high-performance C++ Monte Carlo option pricer";
+PYBIND11_MODULE(monte_carlo_pricer, m) {
+  m.doc() =
+      "A high-performance Monte Carlo option pricer utilziing C++ backend";
 
   py::class_<EuropeanOption>(m, "EuropeanOption")
 

@@ -5,11 +5,19 @@ project(MonteCarloPricer)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+
+set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 
-pybind11_add_module(my_option_pricer
-    # The two source files for our library:
-    europeanOption.cpp
-    binding.cpp
+# Put the built .so into build/python/
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/python)
+
+pybind11_add_module(monte_carlo_pricer
+    src/europeanOption.cpp
+    bindings/module.cpp
 )
+
+target_include_directories(monte_carlo_pricer PUBLIC
+    ${PROJECT_SOURCE_DIR}/include
+)
+

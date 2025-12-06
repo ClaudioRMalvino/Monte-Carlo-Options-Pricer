@@ -1,6 +1,3 @@
-import my_option_pricer
-
-
 def main():
     print("--- Successfully imported C++ module! ---")
 

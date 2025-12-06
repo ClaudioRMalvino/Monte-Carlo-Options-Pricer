@@ -2,7 +2,7 @@ from typing import overload
 
 class EuropeanOption:
     """
-    A C++ class for pricing European options via Monte Carlo.
+    A class for pricing European options via Monte Carlo numerical methods.
     """
 
     @overload
