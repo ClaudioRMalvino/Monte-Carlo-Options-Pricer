@@ -62,7 +62,7 @@ conda install -c conda-forge pybind11 cmake cxx-compiler
     make
     ```
 
-This will create the `my_option_pricer.cpython-....so` file in the project's root directory, ready to be imported.
+This will create the `monte_carlo_pricer.cpython-....so` file in the project's build directory, ./build/python, ready to be imported.
 
 ## Usage Example
 
@@ -70,7 +70,7 @@ The compiled library can be imported directly into any Python script or notebook
 
 ```python
 # main.py
-import my_option_pricer
+import monte_carlo_pricer
 import math
 
 # 1. Set up the option parameters
@@ -83,7 +83,7 @@ seed = 42      # Use a fixed seed for reproducible results
 
 # 2. Create an instance of the C++ EuropeanOption class
 #    (pyright will provide full autocompletion)
-option = my_option_pricer.EuropeanOption(
+option = monte_carlo_pricer.EuropeanOption(
     initStockPrice=S0,
     strikePrice=K,
     riskFreeIntRate=r,
