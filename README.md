@@ -27,6 +27,7 @@ To build this library, you will need:
 * `CMake`
 * `Python`
 * `pybind11`
+* `numpy` (for running the benchmark)
 
 The easiest way to get the build dependencies is via `conda`:
 
@@ -62,7 +63,13 @@ conda install -c conda-forge pybind11 cmake cxx-compiler
     make
     ```
 
-This will create the `monte_carlo_pricer.cpython-....so` file in the project's build directory, ./build/python, ready to be imported.
+This will create the `monte_carlo_pricer.cpython-....so` file in the project's build directory, `./build/python`.
+
+5. From repository root you need to run the following command to link the modules
+
+    ```bash
+    export PYTHONPATH="$(pwd)/python:$(pwd)/build/python"
+    ```
 
 ## Usage Example
 

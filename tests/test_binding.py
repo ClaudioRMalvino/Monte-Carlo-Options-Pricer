@@ -1,7 +1,10 @@
+
+import monte_carlo_pricer
+
 def main():
     print("--- Successfully imported C++ module! ---")
 
-    option_random = my_option_pricer.EuropeanOption(
+    option_random = monte_carlo_pricer.EuropeanOption(
         initStockPrice=100.0,
         strikePrice=100.0,
         riskFreeIntRate=0.05,
@@ -9,7 +12,7 @@ def main():
         timeToExpire=1.0,
     )
 
-    option_test = my_option_pricer.EuropeanOption(
+    option_test = monte_carlo_pricer.EuropeanOption(
         initStockPrice=100.0,
         strikePrice=100.0,
         riskFreeIntRate=0.05,
