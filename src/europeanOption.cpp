@@ -6,7 +6,7 @@ EuropeanOption::EuropeanOption(double initStockPrice, double strikePrice,
                                double riskFreeIntRate, double volatility,
                                double timeToExpire, unsigned int seed)
     : m_S0{initStockPrice}, m_K{strikePrice}, m_r{riskFreeIntRate},
-      m_sigma{volatility}, m_T{timeToExpire}, m_generator{seed} {
+      m_sigma{volatility}, m_T{timeToExpire}, m_seed{seed}, m_generator{seed} {
 
   if (volatility < 0) {
     throw std::invalid_argument("volatility can only be a positive value");
@@ -33,7 +33,8 @@ double EuropeanOption::_calculateST(double Z) const {
 }
 std::pair<double, double>
 EuropeanOption::calculatePrice(int numSimulations) const {
-  std::normal_distribution<> randGaussian(0.0, 1.0);
+  m_generator.seed(m_seed);
+  std::normal_distribution<double> randGaussian(0.0, 1.0);
   double payoffCall{0.0};
   double payoffPut{0.0};
 

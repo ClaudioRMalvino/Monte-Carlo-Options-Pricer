@@ -57,12 +57,13 @@ private:
   const double m_r;                 // Risk-free interest rate
   const double m_sigma;             // Volatility
   const double m_T;                 // Time to expire in years
+  const unsigned int m_seed;          // Seed for rng
   mutable std::mt19937 m_generator; // Random number generator
 
   /**
    * @brief helper function calculates the price path through Geometric Brownian
    Motion (GBM)
-   * when proivded with a standard Gaussian random number, utilzing the
+   * when provided with a standard Gaussian random number, utilzing the
    following equation:
    *
    * S_T = S0 * std::exp( (r - 0.5 * sigma^2) * T + sigma*sqrt(T) * Z)

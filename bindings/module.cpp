@@ -6,7 +6,7 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(monte_carlo_pricer, m) {
   m.doc() =
-      "A high-performance Monte Carlo option pricer utilziing C++ backend";
+      "A high-performance Monte Carlo option pricer utilizing C++ backend";
 
   py::class_<EuropeanOption>(m, "EuropeanOption")
 
