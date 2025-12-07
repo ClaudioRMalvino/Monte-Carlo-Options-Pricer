@@ -1,4 +1,5 @@
 import time
+import statistics
 import numpy as np
 import matplotlib.pyplot as plt
 from option_pricer import EuropeanOptionPython
@@ -60,6 +61,9 @@ def benchmark() -> None:
 
     py_opt = EuropeanOptionPython(S0, K, r, sigma, T, seed)
     cpp_opt = monte_carlo_pricer.EuropeanOption(S0, K, r, sigma, T, seed)
+    speedup_results = []
+    py_runtime_results = []
+    cpp_runtime_results = []
 
     for i in range(1, num_runs + 1):
 
@@ -67,18 +71,35 @@ def benchmark() -> None:
         start = time.perf_counter()
         py_price = py_opt.calculate_price(num_paths)
         py_time = time.perf_counter() - start
+        py_call_price = py_price[0]
+        py_put_price = py_price[1]
 
         # Runs the C++ backend implementation
         start = time.perf_counter()
         cpp_price = cpp_opt.calculatePrice(num_paths)
         cpp_time = time.perf_counter() - start
+        cpp_call_price = cpp_price[0]
+        cpp_put_price = cpp_price[1]
 
-        print(f"Python call price={py_price[0]:.4f}, time={py_time:.2f}s")
-        print(f"C++ call price={cpp_price[0]:.4f}, time={cpp_time:.2f}s")
-        print(f"Speedup ≈ {py_time / cpp_time:.1f}x")
+        speedup = py_time / cpp_time
+        speedup_results.append(speedup)
+        py_runtime_results.append(py_time)
+        cpp_runtime_results.append(cpp_time)
+
+        print(f"Python: call price={py_call_price:.4f}, put price={py_put_price:.4f}, time={py_time:.2f}s")
+        print(f"C++: call price={cpp_call_price:.4f}, put price={cpp_put_price:.4f}, time={cpp_time:.2f}s")
+        print(f"Speedup ≈ {speedup:.1f}x\n ")
 
         f = open("benchmark_results_per_iter.dat", "a")
-        f.write(f"{i} {py_time} {cpp_time} {py_time / cpp_time:.3}\n")
+        f.write(f"{i} {py_time} {cpp_time} {speedup:.3}\n")
+
+    mean_speedup = statistics.mean(speedup_results)
+    mean_pytime = statistics.mean(py_runtime_results)
+    mean_cpptime = statistics.mean(cpp_runtime_results)
+
+    print(f"mean speed up: {mean_speedup:.2f}x")
+    print(f"mean python runtime: {mean_pytime:.2f} s")
+    print(f"mean c++ runtime: {mean_cpptime:.2f} s")
 
     data = np.loadtxt("benchmark_results_per_iter.dat", delimiter=" ")
     plot_python_vs_cpp(data)

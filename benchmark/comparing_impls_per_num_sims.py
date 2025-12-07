@@ -1,7 +1,7 @@
 import time
+import statistics
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import ScalarFormatter
 
 from option_pricer import EuropeanOptionPython
 import monte_carlo_pricer
@@ -82,8 +82,12 @@ def benchmark() -> None:
         40_000_000,
         50_000_000,
     ]
+
     py_opt = EuropeanOptionPython(S0, K, r, sigma, T, seed)
     cpp_opt = monte_carlo_pricer.EuropeanOption(S0, K, r, sigma, T, seed)
+    speedup_results = []
+    py_runtime_results = []
+    cpp_runtime_results = []
 
     for num_paths in num_paths_list:
         # Runs the pure python implementation
@@ -100,19 +104,31 @@ def benchmark() -> None:
         cpp_call = cpp_price[0]
         cpp_put = cpp_price[1]
 
+        speedup = py_time / cpp_time
+        speedup_results.append(speedup)
+        py_runtime_results.append(py_time)
+        cpp_runtime_results.append(cpp_time)
+
         print(f"Num paths: {num_paths}")
-        print(f"Python call price={py_call:.4f}, Python put price={py_put:.4f}, time={py_time:.2f}s")
-        print(f"C++ call price={cpp_call:.4f}, C++ call price={cpp_put:.4f}, time={cpp_time:.2f}s")
+        print(f"Python: call price={py_call:.4f}, put price={py_put:.4f}, time={py_time:.2f}s")
+        print(f"C++: call price={cpp_call:.4f}, put price={cpp_put:.4f}, time={cpp_time:.2f}s")
         print(f"Speedup ≈ {py_time / cpp_time:.1f}x")
         print(f"% difference for call price={calc_perc_diff(py_call, cpp_call):.2f}")
         print(f"% difference for put price={calc_perc_diff(py_put, cpp_put):.2f}\n")
         f = open("benchmark_results_num_sims.dat", "a")
         f.write(f"{num_paths} {py_time} {cpp_time} {py_time / cpp_time:.3}\n")
 
+    mean_speedup = statistics.mean(speedup_results)
+    mean_pytime = statistics.mean(py_runtime_results)
+    mean_cpptime = statistics.mean(cpp_runtime_results)
+
+    print(f"mean speed up: {mean_speedup:.2f}x")
+    print(f"mean python runtime: {mean_pytime:.2f} s")
+    print(f"mean c++ runtime: {mean_cpptime:.2f} s")
+
     data = np.loadtxt("benchmark_results_num_sims.dat", delimiter=" ")
     plot_python_vs_cpp(data)
     plot_speedup(data)
-
 
 if __name__ == "__main__":
     benchmark()

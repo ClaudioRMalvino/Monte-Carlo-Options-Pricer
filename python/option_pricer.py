@@ -50,7 +50,13 @@ class EuropeanOptionPython:
         )
 
     def calculate_price(self, num_paths: int, seed: int | None = None) -> Tuple[float, float]:
+        """
+         Runs the Monte Carlo simulation to find the call/put prices.
 
+        :param num_paths: the number of paths to simulate
+        :param seed: for reproducibility
+        :return: Tuple[float, float] first element is the call price, second element is the put price
+        """
         use_seed = seed if seed is not None else self.seed
         rng = random.Random(use_seed)
 
