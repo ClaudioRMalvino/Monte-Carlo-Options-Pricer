@@ -65,7 +65,7 @@ def benchmark() -> None:
         print(f"C++ call price={cpp_price[0]:.4f}, time={cpp_time:.2f}s")
         print(f"Speedup ≈ {py_time / cpp_time:.1f}x")
 
-        f = open("benchmark_results.txt", "a")
+        f = open("benchmark_results.dat", "a")
         f.write(f"{i} {py_time} {cpp_time} {py_time / cpp_time:.3}\n")
 
     data = np.loadtxt("benchmark_results.dat", delimiter=" ")
