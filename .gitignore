@@ -29,3 +29,8 @@ __pycache__/
 # OS-specific
 .DS_Store
 Thumbs.db
+
+# Benchmark outputs
+*.dat 
+*.svg 
+*.png 
