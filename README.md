@@ -29,7 +29,6 @@ Below is a sample benchmark demonstrating runtime scaling and speedup:
 
 ![Speedup Plot](./benchmark/plots/python_vs_cpp_num_paths_speedup.svg)
 
-
 ## Technology Stack
 
 * **Core Engine:** C++20
