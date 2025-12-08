@@ -1,8 +1,12 @@
 # C++ Monte Carlo Option Pricer
 
+[![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)]()
+[![pybind11](https://img.shields.io/badge/pybind11-Enabled-green.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 This project is a high-performance C++ library for pricing European Call and Put options using the Monte Carlo method.
 
-The core computational engine is written in modern C++ (C++20) for speed, and it is exposed as a Python module using `pybind11`. This creates a high-performance backend that can be easily imported and used in standard Python-based financial analysis and research scripts.
+The core computational engine is written in modern C++ (C++20) for speed, and it is exposed as a Python module using `pybind11`. This creates a high-performance backend that can be easily imported and used in standard Python-based financial analysis and research scripts. It includes benchmarking against a pure Python implementation and demonstrates a reproducible ~3× performance improvement, with deterministic random number generation and type-hinted interfaces suitable for research, quantitative finance, and HPC development.
 
 ## Key Features
 
@@ -11,6 +15,20 @@ The core computational engine is written in modern C++ (C++20) for speed, and it
 * **Robust Design:** The C++ `EuropeanOption` class is `const`-correct and immutable.
 * **Testable & Reproducible:** Implements constructor overloading to allow for both random and fixed-seed generation, which is critical for testing and reproducibility.
 * **Type-Hinted:** A complete `.pyi` stub file is provided for full autocompletion and static analysis (e.g., `pyright`, `mypy`) in your editor.
+
+## Benchmark Results
+
+Detailed benchmark methodology, plots, and data are available here:
+[Benchmarks →](./benchmark/README.md)
+
+## Performance Overview
+
+Below is a sample benchmark demonstrating runtime scaling and speedup:
+
+![Scaling Plot](./benchmark/plots/python_vs_cpp_num_paths.svg)
+
+![Speedup Plot](./benchmark/plots/python_vs_cpp_num_paths_speedup.svg)
+
 
 ## Technology Stack
 

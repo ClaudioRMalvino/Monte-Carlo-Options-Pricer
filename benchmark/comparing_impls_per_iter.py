@@ -24,7 +24,7 @@ def plot_python_vs_cpp(data) -> None:
     labels = ["Python", "C++"]
     plt.legend(labels, loc="upper left")
     plt.grid()
-    plt.savefig("python_vs_cpp.svg")
+    plt.savefig("./plots/python_vs_cpp_iter.svg")
     plt.show()
 
 def plot_speedup(data) -> None:
@@ -46,7 +46,7 @@ def plot_speedup(data) -> None:
     plt.ylabel("Speedup multiplier")
     plt.title("Speed Benchmark (Python implementation / C++ implementation)")
     plt.grid()
-    plt.savefig("speedup.svg")
+    plt.savefig("./plots/speedup_iter.svg")
     plt.show()
 
 def benchmark() -> None:
@@ -90,7 +90,7 @@ def benchmark() -> None:
         print(f"C++: call price={cpp_call_price:.4f}, put price={cpp_put_price:.4f}, time={cpp_time:.2f}s")
         print(f"Speedup ≈ {speedup:.1f}x\n ")
 
-        f = open("benchmark_results_per_iter.dat", "a")
+        f = open("./data/benchmark_results_per_iter.dat", "a")
         f.write(f"{i} {py_time} {cpp_time} {speedup:.3}\n")
 
     mean_speedup = statistics.mean(speedup_results)
@@ -101,7 +101,7 @@ def benchmark() -> None:
     print(f"mean python runtime: {mean_pytime:.2f} s")
     print(f"mean c++ runtime: {mean_cpptime:.2f} s")
 
-    data = np.loadtxt("benchmark_results_per_iter.dat", delimiter=" ")
+    data = np.loadtxt("./data/benchmark_results_per_iter.dat", delimiter=" ")
     plot_python_vs_cpp(data)
     plot_speedup(data)
 

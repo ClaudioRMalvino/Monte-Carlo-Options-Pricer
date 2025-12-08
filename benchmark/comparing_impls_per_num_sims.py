@@ -38,7 +38,7 @@ def plot_python_vs_cpp(data) -> None:
     plt.ylabel("Time, [s]")
     plt.grid()
     plt.legend(loc="upper left")
-    plt.savefig("python_vs_cpp_num_paths.svg")
+    plt.savefig("./plots/python_vs_cpp_num_paths.svg")
     plt.show()
 
 def plot_speedup(data) -> None:
@@ -60,7 +60,7 @@ def plot_speedup(data) -> None:
     plt.xlabel("Number of paths")
     plt.ylabel("Speedup")
     plt.grid()
-    plt.savefig("python_vs_cpp_num_paths_speedup.svg")
+    plt.savefig("./plots/python_vs_cpp_num_paths_speedup.svg")
     plt.show()
 
 def benchmark() -> None:
@@ -115,7 +115,7 @@ def benchmark() -> None:
         print(f"Speedup ≈ {py_time / cpp_time:.1f}x")
         print(f"% difference for call price={calc_perc_diff(py_call, cpp_call):.2f}")
         print(f"% difference for put price={calc_perc_diff(py_put, cpp_put):.2f}\n")
-        f = open("benchmark_results_num_sims.dat", "a")
+        f = open("./data/benchmark_results_num_paths.dat", "a")
         f.write(f"{num_paths} {py_time} {cpp_time} {py_time / cpp_time:.3}\n")
 
     mean_speedup = statistics.mean(speedup_results)
@@ -126,7 +126,7 @@ def benchmark() -> None:
     print(f"mean python runtime: {mean_pytime:.2f} s")
     print(f"mean c++ runtime: {mean_cpptime:.2f} s")
 
-    data = np.loadtxt("benchmark_results_num_sims.dat", delimiter=" ")
+    data = np.loadtxt("./data/benchmark_results_num_paths.dat", delimiter=" ")
     plot_python_vs_cpp(data)
     plot_speedup(data)
 
