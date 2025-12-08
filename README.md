@@ -25,9 +25,9 @@ Detailed benchmark methodology, plots, and data are available here:
 
 Below is a sample benchmark demonstrating runtime scaling and speedup:
 
-![Scaling Plot](./benchmark/plots/python_vs_cpp_num_paths.svg)
+![Scaling Plot](benchmark/examples/python_vs_cpp_num_paths.svg)
 
-![Speedup Plot](./benchmark/plots/python_vs_cpp_num_paths_speedup.svg)
+![Speedup Plot](benchmark/examples/python_vs_cpp_num_paths_speedup.svg)
 
 ## Technology Stack
 

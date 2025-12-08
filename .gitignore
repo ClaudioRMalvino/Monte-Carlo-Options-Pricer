@@ -31,6 +31,4 @@ __pycache__/
 Thumbs.db
 
 # Benchmark outputs
-*.dat 
-*.svg 
-*.png 
+*.dat
