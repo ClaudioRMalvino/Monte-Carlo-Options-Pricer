@@ -26,6 +26,9 @@ This script runs:
 
 - `comparing_impls_per_num_sims.py`
 
+The convergence study is run separately with
+`PYTHONPATH=../build/python python convergence.py`.
+
 Each script produces:
 
 - A `.dat` file containing raw data
@@ -38,22 +41,57 @@ Both implementations use deterministic random seeds per call to ensure that resu
 
 ### System Specifications
 
-Benchmarks were executed on the following system:
+The Python vs. C++ comparison and the convergence study were executed on:
 
-- CPU: Intel Core i7-8565U (8 threads @ 4.60 GHz)
+- CPU: Intel Core Ultra 9 285H (16 cores)
+
+- Compiler: GCC 16.2, Release build (`-O3`); Python 3.12
+
+The OpenMP scaling study was executed on:
+
+- CPU: Intel Core i7-8565U (4 cores / 8 threads @ 4.60 GHz)
 
 - RAM: 16 GiB
 
 ### Results Summary
+
+The comparison is single-threaded (`OMP_NUM_THREADS=1`), so it measures the
+language difference alone and not the OpenMP parallelism.
+
 | Benchmark Type                 | Mean Speedup |
 |------------------------------|-------------:|
-| Repeated executions (fixed N) |        3.31× |
-| Scaling by number of paths    |        3.20× |
+| Repeated executions (fixed N) |        20.4× |
+| Scaling by number of paths    |        19.2× |
 
 | Implementation Type |  Mean repeated execution runtime | Scaling by number of paths |
 |---------------------|---------------------------------:|---------------------------:|
-| Python              |                           0.68 s |                    11.18 s |
-| C++                 |                           0.21 s |                     3.54 s |
+| Python              |                           0.52 s |                     9.71 s |
+| C++                 |                           0.03 s |                     0.50 s |
+
+The build type matters: the C++ engine must be compiled in Release mode.
+Without a build type CMake passes no optimization flag and the engine runs
+about 4× slower, so `CMakeLists.txt` now defaults to Release.
+
+### Convergence to Black-Scholes
+
+`convergence.py` validates the engine against the Black-Scholes closed form.
+For each path count N it prices the option with 32 independent seeds and
+records the RMS error against the analytic price. The dashed lines are the
+predicted standard error, σ<sub>payoff</sub>/√N, computed analytically from
+the variance of the discounted payoff.
+
+| Paths N     | Call RMS error | Put RMS error |
+|------------:|---------------:|--------------:|
+| 10²         |        1.87    |       0.728   |
+| 10⁴         |        0.157   |       0.0728  |
+| 10⁶         |        0.0143  |       0.00756 |
+| 10⁸         |        0.00152 |       0.00100 |
+
+The measured error follows the prediction across six decades of N, with a
+fitted convergence order of −0.51 for the call and −0.49 for the put
+(expected −0.5).
+
+![Convergence](examples/convergence_black_scholes.svg)
 
 ### OpenMP Parallel Scaling
 
@@ -81,7 +119,7 @@ hyper-threading pushing the peak to ~4.1× across 8 logical threads.
 
 ### Interpretation
 
-- The C++ backend consistently outperforms the pure Python implementation by approximately 3×.
+- The C++ backend consistently outperforms the pure Python implementation by approximately 19× on a single thread.
 
 - Both implementations produce similar prices for European call and put options.
 
@@ -93,9 +131,9 @@ Example output for a fixed seed and one million simulated paths (in the scaling 
 
 ```terminal 
 Num paths: 1000000 
-Python: call price=10.4647, put price=5.5613, time=0.70s
-C++: call price=10.4455, put price=5.5740, time=0.23s
-Speedup ≈ 3.1x
+Python: call price=10.4647, put price=5.5613, time=0.49s
+C++: call price=10.4455, put price=5.5740, time=0.03s
+Speedup ≈ 19.3x
 % difference for call price=0.18
 % difference for put price=0.23
 ```

@@ -7,7 +7,7 @@
 
 This project is a high-performance C++ library for pricing European Call and Put options using the Monte Carlo method.
 
-The core computational engine is written in modern C++ (C++20) for speed, parallelized with OpenMP, and exposed as a Python module using `pybind11`. This creates a high-performance backend that can be easily imported and used in standard Python-based financial analysis and research scripts. It includes benchmarking against a pure Python implementation (a reproducible ~3× single-thread speedup) and OpenMP scaling benchmarks (up to ~4× on an 8-thread CPU), with deterministic random number generation and type-hinted interfaces suitable for research, quantitative finance, and HPC development.
+The core computational engine is written in modern C++ (C++20) for speed, parallelized with OpenMP, and exposed as a Python module using `pybind11`. This creates a high-performance backend that can be easily imported and used in standard Python-based financial analysis and research scripts. It includes benchmarking against a pure Python implementation (a reproducible ~19× single-thread speedup), OpenMP scaling benchmarks (up to ~4× on an 8-thread CPU), and a convergence study against the Black-Scholes closed form, with deterministic random number generation and type-hinted interfaces suitable for research, quantitative finance, and HPC development.
 
 ## Key Features
 
@@ -30,6 +30,12 @@ Below is a sample benchmark demonstrating runtime scaling and speedup:
 ![Scaling Plot](benchmark/examples/python_vs_cpp_num_paths.svg)
 
 ![Speedup Plot](benchmark/examples/python_vs_cpp_num_paths_speedup.svg)
+
+### Convergence to Black-Scholes
+
+Pricing error against the analytic Black-Scholes value, measured over 32 independent seeds per path count. The error follows the predicted σ/√N standard error across six decades of N:
+
+![Convergence](benchmark/examples/convergence_black_scholes.svg)
 
 ### OpenMP Parallel Scaling
 
